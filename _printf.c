@@ -69,6 +69,14 @@ static int format_specifier(const char *format, va_list args, int *i)
 	{
 		printed_chars += print_percent('%');
 	}
+	else if (c == 'd' || c == 'i')
+	{
+		int num = va_arg(args, int);
+		char num_str[12];
+
+		sprintf(num_str, "%d", num);
+		printed_chars += print_string(num_str);
+	}
 	return (printed_chars);
 }
 

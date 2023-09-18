@@ -1,56 +1,88 @@
 #include "main.h"
 
 /**
- * handle_char - function to handle the character format specifier.
- * @args: list of arguments.
- * @printed_chars: number of characters printed.
+ * print_char - Helper function to print a cahracter.
+ * @c: The character.
+ * Return: No of printed characters.
  */
 
-void handle_char(va_list args, int *printed_chars)
+static int print_char(char c)
 {
-	char char_arg = va_arg(args, int);
-
-	write(1, &char_arg, 1);
-	(*printed_chars)++;
+	return (write(1, &c, 1));
 }
 
 /**
- * handle_str - function to handle the string format specifier.
- * @args: list of arguments.
- * @printed_chars: number of characters printed.
+ * print_string - Helper function to print a string.
+ * @str: The string to print.
+ * Return: No of printed characters.
  */
 
-void handle_str(va_list args, int *printed_chars)
+static int print_string(const char *str)
 {
-	char *str_arg = va_arg(args, char *);
-	size_t len = strlen(str_arg);
+	int printed_chars = 0;
 
-	write(1, str_arg, len);
-	(*printed_chars) += len;
+	while (*str)
+	{
+		printed_chars += write(1, str, 1);
+		str++;
+	}
+	return (printed_chars);
 }
 
 /**
- * handle_percent - function to handle percent format specifier.
- * @printed_chars: number of characters printed.
+ * print_percent - Helper function to print percent character.
+ * @percent: The percent character.
+ * Return: No of printed characters.
  */
 
-void handle_percent(int *printed_chars)
+static int print_percent(char percent)
 {
-	char percent = '%';
-
-	write(1, &percent, 1);
-	(*printed_chars)++;
+	return (write(1, &percent, 1));
 }
+
+/**
+ * format_specifier - Helper function to handle format specifiers.
+ * @format: the format string.
+ * @args: the variable argument list.
+ * @i: pointer to current position in the format string.
+ * Return: The number of characters printed by this format specifier.
+ */
+
+static int format_specifier(const char *format, va_list args, int *i)
+{
+	char c = format[*i];
+	int printed_chars = 0;
+
+	if (c == 'c')
+	{
+		char ch = va_arg(args, int);
+
+		printed_chars += print_char(ch);
+	}
+	else if (c == 's')
+	{
+		char *str = va_arg(args, char*);
+
+		printed_chars += print_string(str);
+	}
+	else if (c == '%')
+	{
+		printed_chars += print_percent('%');
+	}
+	return (printed_chars);
+}
+
 
 /**
  * _printf - function that produces output according to a format.
- * @format: first argument.
- * Return: Number of characters printed.
+ * @format: character string.
+ * Return: No of characters printed.
  */
 
 int _printf(const char *format, ...)
 {
 	int printed_chars = 0;
+	int i;
 
 	va_list args;
 
@@ -60,34 +92,19 @@ int _printf(const char *format, ...)
 	}
 	va_start(args, format);
 
-	while (*format)
+	for (i = 0; format[i] != '\0'; i++)
 	{
-		if (*format != '%')
+		if (format[i] != '%')
 		{
-			write(1, format, 1);
-			printed_chars++;
+			printed_chars += print_char(format[i]);
 		}
 		else
 		{
-			format++;
-			if (*format == '\0')
-				break;
-
-			if (*format == 'c')
-			{
-				handle_char(args, &printed_chars);
-			}
-			else if (*format == 's')
-			{
-				handle_str(args, &printed_chars);
-			}
-			else if (*format == '%')
-			{
-				handle_percent(&printed_chars);
-			}
+			i++;
+			printed_chars += format_specifier(format, args, &i);
 		}
-		format++;
 	}
 	va_end(args);
+
 	return (printed_chars);
 }

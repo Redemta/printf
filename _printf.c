@@ -1,46 +1,6 @@
 #include "main.h"
 
 /**
- * print_char - Helper function to print a cahracter.
- * @c: The character.
- * Return: No of printed characters.
- */
-
-static int print_char(char c)
-{
-	return (write(1, &c, 1));
-}
-
-/**
- * print_string - Helper function to print a string.
- * @str: The string to print.
- * Return: No of printed characters.
- */
-
-static int print_string(const char *str)
-{
-	int printed_chars = 0;
-
-	while (*str)
-	{
-		printed_chars += write(1, str, 1);
-		str++;
-	}
-	return (printed_chars);
-}
-
-/**
- * print_percent - Helper function to print percent character.
- * @percent: The percent character.
- * Return: No of printed characters.
- */
-
-static int print_percent(char percent)
-{
-	return (write(1, &percent, 1));
-}
-
-/**
  * format_specifier - Helper function to handle format specifiers.
  * @format: the format string.
  * @args: the variable argument list.

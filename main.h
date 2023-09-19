@@ -10,4 +10,12 @@
 
 int _printf(const char *format, ...);
 
+
+
+/* FUNCTIONS */
+int print_char(char c);
+int print_string(char *str);
+int print_percent(char c);
+int print_int(int num);
+
 #endif

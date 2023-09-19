@@ -37,6 +37,10 @@ static int format_specifier(const char *format, va_list args, int *i)
 		sprintf(num_str, "%d", num);
 		printed_chars += print_string(num_str);
 	}
+	else if (c == 'b')
+	{
+		printed_chars += print_binary('b');
+	}
 	return (printed_chars);
 }
 

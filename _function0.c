@@ -49,8 +49,30 @@ int print_percent(char c)
 int print_int(int num)
 {
 	char num_str[12];
-	int len = snprintf(num_str, sizeof(num_str), "%d", num);
 
-	write(1, num_str, len);
-	return (len);
+	sprintf(num_str, "%d", num);
+
+	return (print_string(num_str));
 }
+
+/**
+ * print_binary - function to print unsigned int in binary format.
+ * @num: The unsigned int to print.
+ * Return: No of characters printed.
+ */
+
+int print_binary(unsigned int num)
+{
+	char bin_str[33];
+
+	int i;
+
+	for (i = 31; i >= 0; i--)
+	{
+		bin_str[31 - i] = ((num >> i) & 1) ? '1' : '0';
+	}
+	bin_str[32] = '\0';
+
+	return (print_string(bin_str));
+}
+

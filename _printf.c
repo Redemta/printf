@@ -24,8 +24,14 @@ int format_specifier(const char *format, va_list args, int *i)
 	{
 		return (handle_percent());
 	}
+	else if (c == 'd' || c == 'i')
+	{
+		return (handle_int(args));
+	}
 	return (0);
 }
+
+#include "main.h"
 
 /**
  * _printf - function that produces output according to a format.

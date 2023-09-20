@@ -31,7 +31,6 @@ int handle_string(va_list args)
 
 /**
  * handle_percent - function to handle percent.
- * @args: List of arguments.
  * Return: No of characters to print.
  */
 
@@ -40,4 +39,20 @@ int handle_percent(void)
 	char c = '%';
 
 	return (write(1, &c, 1));
+}
+
+/**
+ * handle_int - function to handle integers d and i.
+ * @args: List of arguments.
+ * Return: No of characters to print.
+ */
+
+int handle_int(va_list args)
+{
+	int num = va_arg(args, int);
+	char buffer[12];
+
+	int len = sprintf(buffer, "%d", num);
+
+	return (write(1, buffer, len));
 }

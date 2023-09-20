@@ -1,49 +1,39 @@
 #include "main.h"
 
 /**
- * format_specifier - Helper function to handle format specifiers.
+ * format_specifier - helper function to handle format specifiers.
  * @format: the format string.
- * @args: the variable argument list.
+ * @args: The list of arguments.
  * @i: pointer to current position in the format string.
- * Return: The number of characters printed by this format specifier.
+ * Return: No of character printed by this format specifier.
  */
 
-static int format_specifier(const char *format, va_list args, int *i)
+int format_specifier(const char *format, va_list args, int *i)
 {
-	char c = format[*i];
 	int printed_chars = 0;
+	char c = format[*i];
 
 	if (c == 'c')
 	{
 		char ch = va_arg(args, int);
 
-		printed_chars += print_char(ch);
+		write(1, &ch, 1);
 	}
 	else if (c == 's')
 	{
-		char *str = va_arg(args, char*);
+		char *str = va_arg(args, char *);
+		int len = 0;
 
-		printed_chars += print_string(str);
+		while (str[len])
+			len++;
+		write(1, str, len);
 	}
 	else if (c == '%')
 	{
-		printed_chars += print_percent('%');
-	}
-	else if (c == 'd' || c == 'i')
-	{
-		int num = va_arg(args, int);
-		char num_str[12];
-
-		sprintf(num_str, "%d", num);
-		printed_chars += print_string(num_str);
-	}
-	else if (c == 'b')
-	{
-		printed_chars += print_binary('b');
+		write(1, &c, 1);
 	}
 	return (printed_chars);
 }
-
 
 /**
  * _printf - function that produces output according to a format.
@@ -68,11 +58,6 @@ int _printf(const char *format, ...)
 	{
 		if (format[i] != '%')
 		{
-			printed_chars += print_char(format[i]);
-		}
-		else
-		{
-			i++;
 			printed_chars += format_specifier(format, args, &i);
 		}
 	}

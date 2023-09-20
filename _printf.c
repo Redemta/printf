@@ -10,29 +10,21 @@
 
 int format_specifier(const char *format, va_list args, int *i)
 {
-	int printed_chars = 0;
 	char c = format[*i];
 
 	if (c == 'c')
 	{
-		char ch = va_arg(args, int);
-
-		write(1, &ch, 1);
+		return (handle_char(args));
 	}
 	else if (c == 's')
 	{
-		char *str = va_arg(args, char *);
-		int len = 0;
-
-		while (str[len])
-			len++;
-		write(1, str, len);
+		return (handle_string(args));
 	}
 	else if (c == '%')
 	{
-		write(1, &c, 1);
+		return (handle_percent());
 	}
-	return (printed_chars);
+	return (0);
 }
 
 /**
@@ -58,6 +50,12 @@ int _printf(const char *format, ...)
 	{
 		if (format[i] != '%')
 		{
+			write(1, &format[i], 1);
+			printed_chars++;
+		}
+		else
+		{
+			i++;
 			printed_chars += format_specifier(format, args, &i);
 		}
 	}

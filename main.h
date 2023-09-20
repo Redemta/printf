@@ -11,6 +11,8 @@
 int _printf(const char *format, ...);
 
 /* FUNCTIONS */
-int format_specifier(const char *format, va_list args, int *);
+int handle_char(va_list args);
+int handle_string(va_list args);
+int handle_percent(void);
 
 #endif

@@ -32,6 +32,22 @@ int format_specifier(const char *format, va_list args, int *i)
 	{
 		return (handle_binary(args));
 	}
+	else if (c == 'u')
+	{
+		return (unsigned_int(args));
+	}
+	else if (c == 'o')
+	{
+		return (handle_octal(args));
+	}
+	else if (c == 'x')
+	{
+		return (handle_hexadecimal(args, 0));
+	}
+	else if (c == 'X')
+	{
+		return (handle_hexadecimal(args, 1));
+	}
 	return (0);
 }
 

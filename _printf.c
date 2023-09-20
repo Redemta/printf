@@ -28,6 +28,10 @@ int format_specifier(const char *format, va_list args, int *i)
 	{
 		return (handle_int(args));
 	}
+	else if (c == 'b')
+	{
+		return (handle_binary(args));
+	}
 	return (0);
 }
 

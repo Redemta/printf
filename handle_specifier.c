@@ -56,3 +56,19 @@ int handle_int(va_list args)
 
 	return (write(1, buffer, len));
 }
+
+/**
+ * handle_binary - function to handle binary conversion.
+ * @args: List of arguments.
+ * Return: No of characters to print.
+ */
+
+int handle_binary(va_list args)
+{
+	unsigned int num = va_arg(args, unsigned int);
+	char buffer[33];
+
+	int len = snprintf(buffer, sizeof(buffer), "%u", num);
+
+	return (write(1, buffer, len));
+}
